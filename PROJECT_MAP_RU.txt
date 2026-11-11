@@ -1,0 +1,21 @@
+ПРОЕКТ v2.5 — СТРУКТУРА
+
+site/index.html — главная (идентична home.html)
+site/home.html — главная копия
+site/ad-form.html — полная форма, загрузка фото и отдельное согласие на публикацию контактов
+site/search-issue.html — поиск и полный выпуск по действующему токену
+site/free-issue.html — бесплатный выпуск и форма запроса покупки
+site/admin.html — защищённая редакторская панель с OTP
+
+apps_script/Code.gs — конфигурация, API, маршрутизация
+apps_script/Database.gs — проверка таблицы, служебные листы, Drive, триггер
+apps_script/Ads.gs — справочники, загрузка фото, приём заявок
+apps_script/IssuesPayments.gs — выпуски, поиск, доступ, платежные запросы, отзывы
+apps_script/Admin.gs — одноразовый код, сессии, модерация, подтверждение платежа
+apps_script/appsscript.json — манифест Apps Script
+
+netlify/functions/api.js — защищённый серверный шлюз Netlify -> Apps Script
+netlify/functions/issue-ads.js — совместимый endpoint выдачи выпусков
+netlify.toml — публикация папки site и подключение Functions
+
+Все файлы связаны по именам действий API. HTML обращается к /api; секрет хранится только в Netlify Environment Variables и Script Properties Apps Script, не в браузере.

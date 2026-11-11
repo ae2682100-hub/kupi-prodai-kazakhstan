@@ -1,0 +1,6 @@
+{
+  "name": "kupi-prodai-kazakhstan",
+  "version": "2.5.0",
+  "private": true,
+  "engines": {"node": ">=18"}
+}

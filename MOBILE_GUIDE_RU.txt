@@ -1,0 +1,27 @@
+КРАТКАЯ ПАМЯТКА ДЛЯ ПРОДОЛЖЕНИЯ ПРОЕКТА С ТЕЛЕФОНА
+
+Этот архив — v2.5. Не смешивайте его с другими версиями проекта.
+
+УЖЕ НАСТРОЕННЫЙ GOOGLE APPS SCRIPT
+Пользователь сообщил, что Google Apps Script уже развёрнут, функция setupProject ранее запускалась,
+а Web App возвращал health=ok. Поэтому не создавайте новый Apps Script, не меняйте существующие
+файлы, Script Properties, триггеры и Google Таблицу без отдельной необходимости и разрешения.
+
+НОВЫЙ NETLIFY
+В Netlify должен попасть корень проекта kupi_v25, а не только папка site.
+В корне находятся netlify.toml, site/ и netlify/functions/.
+netlify.toml задаёт папку публикации site и папку функций netlify/functions.
+Загрузка только содержимого site не подключит серверные функции.
+
+ПЕРЕМЕННЫЕ NETLIFY
+GAS_WEB_APP_URL — действующий URL Google Apps Script Web App, заканчивающийся на /exec.
+KUPI_API_SECRET — то же значение, которое установлено в Script Properties текущего Apps Script
+как KUPI_API_SECRET и соответствует INTERNAL_API_SECRET в Code.gs.
+SITE_BASE_URL — адрес нового сайта Netlify, без завершающего слэша.
+Не отправляйте секрет в чат и не помещайте проект в публичный репозиторий.
+
+После изменения переменных требуется новый deploy. У переменных должны быть доступны Functions
+и Production (либо все нужные Deploy contexts).
+
+Не удаляйте старый сайт, старые настройки, Google Apps Script, Google Таблицу или секреты.
+Все действия выполняйте только в новом отдельном сайте Netlify.

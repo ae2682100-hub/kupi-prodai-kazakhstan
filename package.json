@@ -1,6 +1,11 @@
 {
   "name": "kupi-prodai-kazakhstan",
-  "version": "2.5.0",
+  "version": "2.5.4",
   "private": true,
-  "engines": {"node": ">=18"}
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "node prepare-project.js && node scripts/build-check.js"
+  }
 }

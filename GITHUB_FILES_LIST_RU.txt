@@ -1,0 +1,31 @@
+КУПИ-ПРОДАЙ — КАЗАХСТАН v2.5.3
+КОНТРОЛЬНЫЙ СПИСОК ФАЙЛОВ GITHUB
+
+Всего файлов в архиве: 23
+Пути указаны относительно корня GitHub-репозитория. Сохраняйте структуру папок.
+
+01. DEPLOY_NETLIFY_RU.txt
+02. GITHUB_UPLOAD_RU.txt
+03. PHONE_SETUP_RU.txt
+04. PROJECT_MAP_RU.txt
+05. README_RU.txt
+06. apps_script/Admin.gs
+07. apps_script/Ads.gs
+08. apps_script/Code.gs
+09. apps_script/Database.gs
+10. apps_script/IssuesPayments.gs
+11. apps_script/appsscript.json
+12. docs/AUDIT_RU.txt
+13. netlify.toml
+14. netlify/functions/api.js
+15. netlify/functions/issue-ads.js
+16. package.json
+17. scripts/build-check.js
+18. site/ad-form.html
+19. site/admin.html
+20. site/free-issue.html
+21. site/home.html
+22. site/index.html
+23. site/search-issue.html
+
+Если в GitHub после загрузки отсутствует хотя бы один путь из этого списка, комплект перенесён не полностью. ZIP-файл отдельно в репозитории не заменяет распакованные файлы.

@@ -1,0 +1,30 @@
+КУПИ-ПРОДАЙ — КАЗАХСТАН v2.5.3
+КАК ИСПОЛЬЗОВАТЬ ЭТОТ ZIP
+
+1. Этот ZIP — полный проект. Сначала распакуйте его. Не загружайте сам ZIP в GitHub как единственный файл.
+2. В корне GitHub-репозитория должны лежать PHONE_SETUP_RU.txt, README_RU.txt, package.json, netlify.toml и папки apps_script, docs, netlify, scripts, site.
+3. В папке site должны быть ровно эти страницы: index.html, home.html, ad-form.html, free-issue.html, search-issue.html, admin.html.
+4. В папке netlify/functions должны быть api.js и issue-ads.js.
+5. В папке apps_script должны быть пять файлов .gs и appsscript.json.
+6. Подключайте к Netlify именно GitHub-репозиторий. Не используйте ручную загрузку только папки site: она не устанавливает серверные функции.
+
+НАСТРОЙКИ NETLIFY
+Build command: npm run build
+Publish directory: site
+Functions directory: netlify/functions
+Node.js: 20
+Все эти параметры уже заданы в netlify.toml. Не нужно вводить их вручную, если Netlify прочитал этот файл.
+
+ЗАЩИЩЁННЫЕ ПЕРЕМЕННЫЕ
+В Netlify → Environment variables должна быть переменная KUPI_API_SECRET со значением того же ключа, который уже сохранён в Apps Script → Project Settings → Script Properties.
+Ключ нельзя помещать в ZIP, GitHub, HTML или отправлять в чат.
+GAS_WEB_APP_URL не требуется, если используется URL, встроенный как резервный адрес в api.js. Если Web App был перевыпущен с другим URL, задайте GAS_WEB_APP_URL.
+
+ПРОВЕРКА ПОСЛЕ ПУБЛИКАЦИИ
+Откройте https://ИМЯ-САЙТА.netlify.app/api?action=health
+Ожидается JSON с ok:true, secret_configured:true и google_apps_script.ok:true.
+Если Netlify build завершился Failed, не меняйте Google Apps Script: сначала смотрите лог сборки Netlify.
+
+ВАЖНО О ДАННЫХ
+Не запускайте setupProject повторно, пока не сверены названия и заголовки семи основных листов Google Таблицы. Код сначала проверяет их и при несоответствии останавливается до изменений. Существующие листы и данные не очищаются.
+Kaspi-платёж в этой версии подтверждается редактором вручную. Сайт не проверяет оплату автоматически.

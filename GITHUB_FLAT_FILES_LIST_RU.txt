@@ -1,0 +1,30 @@
+ФАЙЛЫ ПЛОСКОГО КОМПЛЕКТА v2.5.4
+Всего файлов в папке: 27 (включая этот список)
+
+DEPLOY_NETLIFY_RU.txt
+GITHUB_FILES_LIST_RU.txt
+GITHUB_FLAT_UPLOAD_RU.txt
+GITHUB_UPLOAD_RU.txt
+PHONE_SETUP_RU.txt
+PROJECT_MAP_RU.txt
+README_RU.txt
+apps_script__Admin.gs
+apps_script__Ads.gs
+apps_script__Code.gs
+apps_script__Database.gs
+apps_script__IssuesPayments.gs
+apps_script__appsscript.json
+docs__AUDIT_RU.txt
+netlify.toml
+netlify__functions__api.js
+netlify__functions__issue-ads.js
+package.json
+prepare-project.js
+scripts__build-check.js
+site__ad-form.html
+site__admin.html
+site__free-issue.html
+site__home.html
+site__index.html
+site__search-issue.html
+GITHUB_FLAT_FILES_LIST_RU.txt

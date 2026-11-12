@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Бесплатный выпуск газеты Купи-Продай — Казахстан. Объявления, цены, категории и поиск без публикации контактов продавцов.">
+<title>Бесплатный выпуск без контактов — Купи-Продай, Казахстан</title>
+<style>
+:root{--ink:#172033;--muted:#5c667a;--line:#dce2eb;--paper:#f5f7fb;--brand:#164e8a;--brand2:#0f766e;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(125deg,#123f70,#176d83);color:#fff;padding:25px 16px 22px}
+.wrap{max-width:1050px;margin:0 auto;padding:0 14px}
+h1{font-size:clamp(26px,5vw,40px);line-height:1.1;margin:0 0 8px}
+header p{margin:0;max-width:720px;color:#e8f3ff}
+.lang-switch{display:flex;gap:8px;margin-top:14px}.lang-switch button{border:1px solid #ffffff88;background:transparent;color:#fff;padding:7px 12px;min-height:36px}.lang-switch button.lang-active{background:#fff;color:#123f70}.pill{display:inline-block;border:1px solid #ffffff65;border-radius:999px;padding:5px 10px;font-size:13px;margin-top:14px}
+main{padding:18px 0 34px}.panel{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:17px;margin-bottom:15px;box-shadow:0 5px 20px #14213d08}
+h2{font-size:20px;margin:0 0 12px}h3{font-size:17px;margin:0 0 7px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+label{display:block;font-size:13px;font-weight:700;color:#3d4960;margin-bottom:5px}
+input,select{width:100%;min-height:44px;border:1px solid #cbd4e1;border-radius:10px;padding:10px 11px;background:#fff;color:var(--ink);font:inherit}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{min-height:44px;border:0;border-radius:10px;padding:10px 17px;font:inherit;font-weight:700;cursor:pointer}
+.primary{background:var(--brand);color:#fff}.secondary{background:#e9eef6;color:#26344b}
+.note{color:var(--muted);font-size:13px;margin:10px 0 0}
+.issue-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.issue{border:1px solid var(--line);border-radius:12px;padding:14px}
+.issue.free{border-top:4px solid var(--brand2)}.issue.paid{border-top:4px solid #c18a20}
+.issue p{margin:6px 0;color:var(--muted);font-size:14px}
+.price{font-weight:800;font-size:21px}
+#results{display:grid;gap:12px}.ad{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff}
+.suggest-wrap{position:relative}.suggestions{position:absolute;z-index:20;top:calc(100% + 3px);left:0;right:0;max-height:240px;overflow-y:auto;background:#fff;border:1px solid #cbd4e1;border-radius:10px;box-shadow:0 8px 22px #14213d20}.suggestion{display:block;width:100%;min-height:40px;text-align:left;border:0;border-radius:0;background:#fff;color:var(--ink);padding:9px 12px;font-weight:400}.suggestion:hover,.suggestion:focus{background:#e9f2fb;outline:none}.suggestion+.suggestion{border-top:1px solid #edf0f5}
+.ad-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ad-price{font-weight:800;color:#0f665f}.meta{font-size:13px;color:var(--muted);margin:5px 0}
+.empty{border:1px dashed #b9c5d6;border-radius:12px;padding:20px;text-align:center;color:var(--muted);background:#fbfcff}
+footer{padding:18px 14px;color:var(--muted);font-size:13px;text-align:center}
+.hidden{display:none!important}
+@media(max-width:620px){.grid,.issue-grid{grid-template-columns:1fr}.panel{padding:14px}header{padding-top:22px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Купи-Продай — Казахстан</h1>
+    <p>Объявления со всей страны: недвижимость, транспорт, оборудование, электроника, товары и услуги.</p>
+    <p class="slogan" style="font-weight:700">Бесплатно и без посредников.</p>
+    <div class="lang-switch"><button type="button" data-lang="ru" class="lang-active">Русский</button><button type="button" data-lang="kk">Қазақша</button></div><span class="pill" id="issuePill">Поиск по выпуску · Казахстан</span>
+  </div>
+</header>
+<main class="wrap">
+  <section class="panel">
+    <h2>Найти объявление</h2>
+    <div class="grid">
+      <div><label for="category">Категория</label><select id="category"><option value="">Все категории</option></select></div>
+      <div><label for="region">Область / город республиканского значения</label><select id="region"><option value="">Все области и города</option></select></div>
+      
+      <div><label for="kind">Тип объявления</label><select id="kind"><option value="">Все типы</option><option>Продам</option><option>Куплю</option><option>Обменяю</option><option>Сдам в аренду</option><option>Сниму в аренду</option><option>Предлагаю услугу</option><option>Ищу работу</option><option>Вакансия</option><option>Отдам бесплатно</option><option>Другое</option></select></div>
+      <div><label for="district">Район</label><input id="district" list="districtHints" placeholder="Например, район или округ"><datalist id="districtHints"></datalist></div>
+      <div class="settlement-field"><label for="settlement">Город / село</label><div class="suggest-wrap"><input id="settlement" autocomplete="off" placeholder="Начните вводить город"><div id="settlementSuggestions" class="suggestions hidden" role="listbox" aria-label="Список городов Казахстана"></div></div></div>
+      <div><label for="minPrice">Цена от, ₸</label><input id="minPrice" type="number" min="0" placeholder="Без минимума"></div>
+      <div><label for="maxPrice">Цена до, ₸</label><input id="maxPrice" type="number" min="0" placeholder="Без максимума"></div>
+      <div><label for="priceType">Условия цены</label><select id="priceType"><option value="">Любые</option><option>Цена указана</option><option>Договорная</option><option>Бесплатно</option><option>Не указывать цену</option></select></div>
+      <div style="grid-column:1/-1"><label for="keyword">Ключевое слово</label><input id="keyword" placeholder="Например: насос, квартира, трактор"></div>
+    </div>
+    <div class="actions"><button class="primary" id="findBtn">Найти объявления</button><button class="secondary" id="resetBtn">Сбросить</button><button class="secondary" id="htmlBtn" type="button">Скачать выпуск HTML</button><button class="secondary" id="pdfBtn" type="button">Печать / PDF</button></div>
+    <p class="note">Район и населённый пункт можно вписать вручную. Список всех сёл и районов здесь не встроен; результаты показываются по данным конкретного выпуска.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Выпуски газеты</h2>
+    <div class="issue-grid">
+      <div class="issue free"><h3>Бесплатный выпуск без контактов</h3><p>Бесплатно и без посредников. Объявления, описания, цены и местоположение доступны для просмотра; телефоны и другие прямые контакты не показываются.</p><strong>Бесплатно</strong></div>
+      <div class="issue paid"><h3>Полный выпуск с контактами</h3><p>Полные тексты, цены, местоположение, фотографии и контакты — только если продавец разрешил их публикацию.</p><div class="price">500 ₸</div><p>После ручной проверки оплаты редакция выдаёт персональную онлайн-ссылку на выбранный выпуск. Ссылка действует до выхода следующего выпуска, обычно около недели; затем для просмотра нужно купить новый выпуск.</p></div>
+    </div>
+    <p class="note">Новый выпуск планируется каждый понедельник в 06:00 по времени Казахстана. В него попадают только новые одобренные объявления, ещё не включённые в прошлые выпуски. Публичного архива нет; служебная история хранится закрыто для редакции.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Результаты поиска <span id="count" class="note"></span></h2>
+    <div id="results"><div class="empty">Загрузка бесплатного выпуска…</div></div>
+  </section>
+  <section class="panel">
+    <h2>Как работает газета</h2>
+    <p>1. Объявление подают через полную форму на сайте; фотографии и контакты сохраняются в базе.</p>
+    <p>2. Редакция вручную проверяет текст, фотографии и контактные данные, затем одобряет объявление или отклоняет его с указанием причины.</p>
+    <p>3. Новый выпуск создаётся по понедельникам в 06:00. В каждом выпуске только новые одобренные объявления. Старые выпуски не открываются публично.</p>
+    <p class="note">Сайт работает через Netlify Functions и Google Apps Script. Заявки, модерация и доступ к выпускам становятся доступны после настройки серверных параметров редакцией.</p>
+  </section>
+</main>
+<footer>Купи-Продай — Казахстан · Шаблон выпуска</footer>
+<script>
+const $ = id => document.getElementById(id);
+const categories = [
+"Недвижимость","Квартиры и комнаты","Дома, дачи и коттеджи","Земельные участки","Гаражи и парковки","Аренда недвижимости","Коммерческая недвижимость",
+"Автомобили","Грузовой транспорт и автобусы","Мотоциклы и скутеры","Прицепы","Тракторы и спецтехника","Автозапчасти и комплектующие",
+"Станки и промышленное оборудование","Насосы и компрессоры","Генераторы и электростанции","Сварочное оборудование","Радиоаппаратура","Электронные компоненты и платы","Измерительные приборы",
+"Компьютеры и офисная техника","Телефоны и связь","Бытовая техника","Мебель и товары для дома","Одежда, обувь и аксессуары","Инструменты","Строительные материалы",
+"Уголь, дрова и топливо","Сельхозтехника и оборудование","Животные и скот","Птица, корма и зерно","Сельхозпродукция","Товары собственного производства",
+"Услуги и ремонт","Работа и вакансии","Куплю","Продам","Обменяю","Отдам бесплатно","Ищу услугу","Другое","Здоровье и лечение","Мыло, мойка и косметика","Товары для детей","Всё для школы","Спорт, охота и рыбалка","Всё для кухни","Отдых и туризм"
+ ];
+const subcategoryOptions = ['Одежда', 'Обувь', 'Сумки и аксессуары', 'Ювелирные украшения', 'Бижутерия', 'Лечение и поддержание здоровья', 'Медицинские товары и приборы', 'Средства ухода', 'Мыло и моющие средства', 'Косметика', 'Аксессуары для ухода', 'Средства гигиены', 'Детская одежда', 'Детская обувь', 'Игрушки', 'Коляски и товары для ухода', 'Детская мебель', 'Школьные принадлежности', 'Канцелярские товары', 'Рюкзаки и сумки', 'Школьные аксессуары', 'Учебные материалы', 'Спортивные товары', 'Охота', 'Рыбалка', 'Спортивная одежда и обувь', 'Туристическое снаряжение', 'Посуда', 'Кухонные принадлежности', 'Мелкая кухонная техника', 'Хранение продуктов', 'Товары для отдыха', 'Палатки и спальники', 'Товары для пикника', 'Путешествия и аксессуары', 'Часы'];
+const kinds = [
+  "Продам",
+  "Куплю",
+  "Обменяю",
+  "Сдам в аренду",
+  "Сниму в аренду",
+  "Предлагаю услугу",
+  "Ищу работу",
+  "Вакансия",
+  "Отдам бесплатно",
+  "Другое"
+];
+const allCategories = [...new Set([...categories, ...subcategoryOptions])]
+  .filter(category => !kinds.includes(category));
+const regions = ["Область Абай","Акмолинская область","Актюбинская область","Алматинская область","Атырауская область","Западно-Казахстанская область","Жамбылская область","Жетісу","Карагандинская область","Костанайская область","Кызылординская область","Мангистауская область","Павлодарская область","Северо-Казахстанская область","Туркестанская область","Восточно-Казахстанская область","Улытауская область","город Астана","город Алматы","город Шымкент"];
+allCategories.forEach(x => {if(!Array.from($("category").options).some(o=>o.value===x))$("category").add(new Option(x,x));});
+regions.forEach(x => {if(!Array.from($("region").options).some(o=>o.value===x))$("region").add(new Option(x,x));});
+const cities = ["Абай","Акколь","Аксай","Аксу","Актау","Актобе","Алатау","Алга","Алматы","Алтай","Арал","Аркалык","Арыс","Астана","Атбасар","Атырау","Аягоз","Байконыр","Балхаш","Булаево","Державинск","Ерейментау","Есик","Есиль","Жанаозен","Жанатас","Жаркент","Жезказган","Жем","Жетысай","Житикара","Зайсан","Кандыагаш","Караганда","Каражал","Каратау","Каркаралинск","Каскелен","Кентау","Кокшетау","Конаев","Косшы","Костанай","Кульсары","Курчатов","Кызылорда","Казалинск","Ленгер","Лисаковск","Макинск","Мамлютка","Павлодар","Петропавловск","Приозерск","Риддер","Рудный","Сарань","Сарканд","Сарыагаш","Сатпаев","Семей","Сергеевка","Серебрянск","Степногорск","Степняк","Тайынша","Талгар","Талдыкорган","Тараз","Текели","Темир","Темиртау","Тобыл","Туркестан","Уральск","Усть-Каменогорск","Ушарал","Уштобе","Форт-Шевченко","Хромтау","Шалкар","Шар","Шардара","Шахтинск","Шемонаиха","Шу","Щучинск","Шымкент","Экибастуз","Эмба"];
+const suggestions=$("settlementSuggestions");
+const norm=s=>(s||"").toLocaleLowerCase().normalize("NFKC").trim().replace(/\s+/g," ");
+function showCitySuggestions(){
+  const q=norm($("settlement").value);
+  const matches=cities.filter(c=>!q||norm(c).includes(q));
+  suggestions.replaceChildren();
+  matches.slice(0,40).forEach(city=>{
+    const b=document.createElement("button");
+    b.type="button";b.className="suggestion";b.setAttribute("role","option");b.textContent=tr(city);
+    b.addEventListener("click",()=>{$("settlement").value=city;suggestions.classList.add("hidden")});
+    suggestions.appendChild(b);
+  });
+  suggestions.classList.toggle("hidden",!matches.length);
+}
+$("settlement").addEventListener("focus",showCitySuggestions);
+$("settlement").addEventListener("input",showCitySuggestions);
+document.addEventListener("click",e=>{if(!e.target.closest(".suggest-wrap"))suggestions.classList.add("hidden")});
+
+let ads=[];
+let issueMeta=null;
+function getToken(){
+  const params=new URLSearchParams(location.search);
+  return params.get("token")||params.get("access")||"";
+}
+function esc(s){
+  return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function money(v){
+  return v===null||v===undefined||v===""?"Цена договорная":new Intl.NumberFormat("ru-RU").format(v)+" ₸";
+}
+const translations={
+  "недвижимость":"жылжымайтын мүлік","квартира":"пәтер","дом":"үй",
+  "земельный участок":"жер учаскесі","автомобиль":"автокөлік","машина":"көлік",
+  "насос":"сорғы","трактор":"трактор","оборудование":"жабдық","телефон":"телефон",
+  "работа":"жұмыс","услуги":"қызметтер","продам":"сатамын","куплю":"сатып аламын",
+  "обменяю":"айырбастаймын"
+};
+function render(){
+  const c=$("category").value,r=$("region").value,d=norm($("district").value),s=norm($("settlement").value),k=norm($("keyword").value),kind=$("kind").value,pt=$("priceType").value;
+  const min=$("minPrice").value===""?null:Number($("minPrice").value),max=$("maxPrice").value===""?null:Number($("maxPrice").value);
+  const keywordAliases=[k];
+  if(k){for(const [ru,kk] of Object.entries(translations)){if(norm(kk).includes(k)||k.includes(norm(kk)))keywordAliases.push(norm(ru));}}
+  const matches=ads.filter(a=>
+    (!c||a.category===c||a.subcategory===c)&&(!kind||a.kind===kind)&&(!pt||a.price_type===pt)&&
+    (!r||a.region===r)&&(!d||norm(a.district).includes(d))&&(!s||norm(a.city||a.settlement).includes(s))&&
+    (!k||keywordAliases.some(term=>term&&norm([a.title,a.description,a.category,a.subcategory,a.region,a.district,a.city,a.kind,a.title_ru,a.description_ru,a.title_kk,a.description_kk].join(" ")).includes(term)))&&
+    (min===null||(a.price!==null&&a.price!==undefined&&Number(a.price)>=min))&&
+    (max===null||(a.price!==null&&a.price!==undefined&&Number(a.price)<=max))
+  );
+  $("count").textContent=document.documentElement.lang==="kk"?"— табылды: "+matches.length:"— найдено: "+matches.length;
+  const el=$("results");el.replaceChildren();
+  if(!matches.length){
+    const empty=document.createElement("div");empty.className="empty";
+    empty.textContent=document.documentElement.lang==="kk"?"Сәйкес хабарландырулар табылмады. Іздеу шарттарын өзгертіңіз.":"Подходящих объявлений не найдено. Измените фильтры или сбросьте поиск.";
+    el.appendChild(empty);return;
+  }
+  const isPaid=issueMeta?.access_type==="full";
+  matches.forEach(a=>{
+    const card=document.createElement("article");card.className="ad";
+    const title=document.createElement("strong");
+    title.textContent=document.documentElement.lang==="kk"?(a.title_kk||a.title_ru||a.title||""):(a.title_ru||a.title||"");
+    const price=document.createElement("div");price.className="ad-price";price.textContent=a.price_type==="Бесплатно"?tr("Бесплатно"):money(a.price);
+    const meta=document.createElement("div");meta.className="meta";
+    meta.textContent=[a.category,a.subcategory,a.region,a.district,a.city||a.settlement,a.kind].filter(Boolean).map(tr).join(" · ");
+    const desc=document.createElement("p");
+    desc.textContent=document.documentElement.lang==="kk"?(a.description_kk||a.description_ru||a.description||""):(a.description_ru||a.description||"");
+    card.append(title,price,meta,desc);
+    if(Array.isArray(a.photo_urls)&&a.photo_urls.length){
+      const img=document.createElement("img");img.src=a.photo_urls[0];img.alt=title.textContent;img.loading="lazy";
+      img.style="max-width:100%;max-height:280px;border-radius:10px;margin-top:8px";card.appendChild(img);
+    }
+    const contacts=document.createElement("p");contacts.className="meta";
+    const contactParts=[];
+    if(isPaid&&a.contact_name)contactParts.push(tr("Автор:")+" "+a.contact_name);
+    if(isPaid&&a.phone)contactParts.push(tr("Телефон:")+" "+a.phone);
+    if(isPaid&&a.email)contactParts.push("Email: "+a.email);
+    contacts.textContent=contactParts.length?contactParts.join(" · "):tr("Контактные данные не показываются в бесплатном выпуске");
+    card.appendChild(contacts);el.appendChild(card);
+  });
+}
+async function loadIssue(){
+  const token=getToken();
+  try{
+    const issueId=new URLSearchParams(location.search).get("issue_id")||"";
+    const params=new URLSearchParams();if(token)params.set("token",token);if(issueId)params.set("issue_id",issueId);
+    const url="/.netlify/functions/issue-ads"+(params.toString()?"?"+params.toString():"");
+    const res=await fetch(url);
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.error||"Выпуск не найден");
+    ads=Array.isArray(data.ads)?data.ads:[];
+    issueMeta=data.issue||null;
+    const isPaid=issueMeta?.access_type==="full";
+    $("issuePill").textContent=(document.documentElement.lang==="kk"?(isPaid?"Ақылы толық шығарылым · ":"Тегін шығарылым · "):(isPaid?"Полный выпуск · ":"Бесплатный выпуск без контактов · "))+
+      (issueMeta?.issue_number?"№ "+issueMeta.issue_number+" · ":"")+(issueMeta?.issue_date||"")+
+      (issueMeta?.published_at?" · "+new Date(issueMeta.published_at).toLocaleString(document.documentElement.lang==="kk"?"kk-KZ":"ru-RU",{timeZone:"Asia/Almaty"}):"");
+    render();
+  }catch(e){
+    $("results").replaceChildren();
+    const msg=document.createElement("div");msg.className="empty";
+    msg.textContent=document.documentElement.lang==="kk"?"Басылымды ашу мүмкін болмады: "+e.message+". Алғашқы жарияланымнан кейін тегін басылым қолжетімді болады. Толық басылым үшін төлем расталғаннан кейін берілетін жеке сілтеме қажет.":"Не удалось открыть выпуск: "+e.message+". Бесплатный выпуск появится после первой публикации. Для полного выпуска нужна персональная ссылка после подтверждения оплаты.";
+    $("results").appendChild(msg);$("count").textContent="";
+  }
+}
+function issueFileBase(){
+  const n=String(issueMeta?.issue_number||"bez-nomera");
+  const d=String(issueMeta?.issue_date||new Date().toISOString().slice(0,10));
+  return `gazeta-${n}-${d}`;
+}
+function exportIssueHtml(){
+  if(!issueMeta){alert(document.documentElement.lang==="kk"?"Басылым әлі жүктелмеген.":"Выпуск ещё не загружен.");return;}
+  const isPaid=issueMeta.access_type==="full";
+  const title=`Газета Купи-Продай Казахстан №${issueMeta.issue_number||"—"} от ${issueMeta.issue_date||"—"}`;
+  const cards=ads.map(a=>{
+    const titleText=document.documentElement.lang==="kk"?(a.title_kk||a.title_ru||a.title):(a.title_ru||a.title);
+    const descText=document.documentElement.lang==="kk"?(a.description_kk||a.description_ru||a.description):(a.description_ru||a.description||"");
+    const price=a.price_type==="Бесплатно"?"Бесплатно":money(a.price);
+    const meta=[a.category,a.subcategory,a.region,a.district,a.city||a.settlement,a.kind].filter(Boolean).join(" · ");
+    const contact=[isPaid&&a.contact_name?"Автор: "+a.contact_name:"",isPaid&&a.phone?"Телефон: "+a.phone:"",isPaid&&a.email?"Email: "+a.email:""].filter(Boolean).join(" · ");
+    const photo=Array.isArray(a.photo_urls)&&a.photo_urls[0]?`<img src="${esc(a.photo_urls[0])}" alt="Фото объявления">`:"";
+    return `<article><h2>${esc(titleText||"")}</h2><strong>${esc(price)}</strong><p class="meta">${esc(meta)}</p><p>${esc(descText||"")}</p>${photo}<p class="meta">${esc(contact||(isPaid?"Контакты не предоставлены":"Контактные данные не показываются в бесплатном выпуске"))}</p></article>`;
+  }).join("");
+  const html=`<!doctype html><html lang="${document.documentElement.lang==="kk"?"kk":"ru"}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${esc(title)}</title><style>body{font:14px/1.45 Arial,sans-serif;max-width:900px;margin:20px auto;padding:0 14px;color:#172033}article{border:1px solid #ccc;padding:12px;margin:10px 0;break-inside:avoid}img{max-width:100%;max-height:220px;object-fit:contain}.meta{color:#555}</style></head><body><h1>${esc(title)}</h1><p>Номер выпуска: ${esc(issueMeta.issue_number||"—")} · Дата выхода: ${esc(issueMeta.issue_date||"—")}</p><p>Онлайн-доступ действует до выхода следующего выпуска, но не более 7 дней. Уже скачанный файл нельзя удалённо отключить.</p>${cards}</body></html>`;
+  const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+  const url=URL.createObjectURL(blob);const link=document.createElement("a");
+  link.href=url;link.download=issueFileBase()+".html";document.body.appendChild(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function printIssuePdf(){
+  if(!issueMeta){alert(document.documentElement.lang==="kk"?"Басылым әлі жүктелмеген.":"Выпуск ещё не загружен.");return;}
+  const isPaid=issueMeta.access_type==="full";
+  const title=`Газета «Купи-Продай — Казахстан» №${issueMeta.issue_number||"—"} от ${issueMeta.issue_date||"—"}`;
+  const cards=ads.map(a=>{
+    const titleText=document.documentElement.lang==="kk"?(a.title_kk||a.title_ru||a.title):(a.title_ru||a.title||"");
+    const descText=document.documentElement.lang==="kk"?(a.description_kk||a.description_ru||a.description):(a.description_ru||a.description||"");
+    const price=a.price_type==="Бесплатно"?"Бесплатно":money(a.price);
+    const meta=[a.category,a.subcategory,a.region,a.district,a.city||a.settlement,a.kind].filter(Boolean).join(" · ");
+    const contact=[isPaid&&a.contact_name?"Автор: "+a.contact_name:"",isPaid&&a.phone?"Телефон: "+a.phone:"",isPaid&&a.email?"Email: "+a.email:""].filter(Boolean).join(" · ");
+    const photo=Array.isArray(a.photo_urls)&&a.photo_urls[0]?`<img src="${esc(a.photo_urls[0])}" alt="Фото объявления">`:"";
+    return `<article><h2>${esc(titleText)}</h2><strong>${esc(price)}</strong><p class="meta">${esc(meta)}</p><p>${esc(descText)}</p>${photo}<p class="meta">${esc(contact||(isPaid?"Контакты не предоставлены":"Контактные данные не показываются в бесплатном выпуске"))}</p></article>`;
+  }).join("");
+  const w=window.open("","_blank");
+  if(!w){alert(document.documentElement.lang==="kk"?"Браузер басып шығару терезесін бұғаттады. Қалқымалы терезелерге рұқсат беріп, қайталап көріңіз.":"Браузер заблокировал окно печати. Разрешите всплывающие окна и повторите попытку.");return;}
+  w.document.open();
+  w.document.write(`<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font:14px/1.5 Arial,sans-serif;max-width:900px;margin:20px auto;padding:0 14px;color:#172033}article{border:1px solid #ccc;padding:12px;margin:10px 0;break-inside:avoid}img{display:block;max-width:100%;max-height:220px;object-fit:contain}.meta{color:#555;font-size:12px}@media print{body{margin:0;max-width:none}article{break-inside:avoid}}</style></head><body><h1>${esc(title)}</h1><p>Номер выпуска: ${esc(issueMeta.issue_number||"—")} · Дата выпуска: ${esc(issueMeta.issue_date||"—")}</p>${cards}<script>window.onload=function(){setTimeout(function(){window.print()},400)};<\/script></body></html>`);
+  w.document.close();
+}
+const UI_KK={
+"Купи-Продай — Казахстан":"Сатып ал — сат — Қазақстан","Автор:":"Автор:","Телефон:":"Телефон:","Контактные данные не показываются в бесплатном выпуске":"Тегін басылымда байланыс деректері көрсетілмейді","Объявления со всей страны: недвижимость, транспорт, оборудование, электроника, товары и услуги.":"Ел бойынша хабарландырулар: жылжымайтын мүлік, көлік, жабдық, электроника, тауарлар мен қызметтер.","Бесплатно и без посредников.":"Тегін және делдалсыз.","Поиск по выпуску · Казахстан":"Басылымнан іздеу · Қазақстан","Найти объявление":"Хабарландыруды іздеу","Категория":"Санат","Все категории":"Барлық санаттар","Область / город республиканского значения":"Облыс / республикалық маңызы бар қала","Все области и города":"Барлық облыстар мен қалалар","Подкатегория":"Ішкі санат","Все подкатегории":"Барлық ішкі санаттар","Тип объявления":"Хабарландыру түрі","Все типы":"Барлық түрлер","Район":"Аудан","Например, район или округ":"Мысалы, аудан немесе округ","Город / село":"Қала / ауыл","Начните вводить город":"Қаланы енгізе бастаңыз","Цена от, ₸":"Бағасы, ₸ бастап","Без минимума":"Ең төменгі баға жоқ","Цена до, ₸":"Бағасы, ₸ дейін","Без максимума":"Ең жоғарғы баға жоқ","Условия цены":"Баға шарттары","Любые":"Кез келген","Цена указана":"Бағасы көрсетілген","Договорная":"Келісімді","Бесплатно":"Тегін","Не указывать цену":"Бағаны көрсетпеу","Ключевое слово":"Кілт сөз","Например: насос, квартира, трактор":"Мысалы: сорғы, пәтер, трактор","Найти объявления":"Хабарландыруларды табу","Сбросить":"Тазарту","Скачать выпуск HTML":"Басылымды HTML форматында жүктеу","Печать / PDF":"Басып шығару / PDF","Район и населённый пункт можно вписать вручную. Список всех сёл и районов здесь не встроен; результаты показываются по данным конкретного выпуска.":"Аудан мен елді мекенді қолмен енгізуге болады. Мұнда барлық ауылдар мен аудандардың тізімі жоқ; нәтижелер нақты басылым деректері бойынша көрсетіледі.","Выпуски газеты":"Газет басылымдары","Бесплатный выпуск без контактов":"Байланыс деректері жоқ тегін басылым","Бесплатно и без посредников. Объявления, описания, цены и местоположение доступны для просмотра; телефоны и другие прямые контакты не показываются.":"Тегін және делдалсыз. Хабарландырулар, сипаттамалар, бағалар мен орналасқан жері көрсетіледі; телефондар және басқа тікелей байланыс деректері көрсетілмейді.","Полный выпуск с контактами":"Байланыс деректері бар толық басылым","Полные тексты, цены, местоположение, фотографии и контакты — только если продавец разрешил их публикацию.":"Толық мәтіндер, бағалар, орналасқан жері, фотосуреттер мен байланыс деректері — сатушы жариялауға рұқсат берген жағдайда ғана.","После ручной проверки оплаты редакция выдаёт персональную онлайн-ссылку на выбранный выпуск. Ссылка действует до выхода следующего выпуска, обычно около недели; затем для просмотра нужно купить новый выпуск.":"Төлем қолмен тексерілгеннен кейін редакция таңдалған басылымға жеке онлайн-сілтеме береді. Сілтеме келесі басылым шыққанға дейін, әдетте бір аптаға жуық жарамды; одан кейін жаңа басылымды сатып алу қажет.","Новый выпуск планируется каждый понедельник в 06:00 по времени Казахстана. В него попадают только новые одобренные объявления, ещё не включённые в прошлые выпуски. Публичного архива нет; служебная история хранится закрыто для редакции.":"Жаңа басылым әр дүйсенбі күні Қазақстан уақытымен 06:00-де шығарылады. Оған бұрынғы басылымдарға кірмеген, мақұлданған жаңа хабарландырулар ғана енгізіледі. Ашық мұрағат жоқ; қызметтік тарих редакция үшін жабық сақталады.","Результаты поиска":"Іздеу нәтижелері","Загрузка бесплатного выпуска…":"Тегін басылым жүктелуде…","Как работает газета":"Газет қалай жұмыс істейді","1. Объявление подают через полную форму на сайте; фотографии и контакты сохраняются в базе.":"1. Хабарландыру сайттағы толық форма арқылы жіберіледі; фотосуреттер мен байланыс деректері дерекқорда сақталады.","2. Редакция вручную проверяет текст, фотографии и контактные данные, затем одобряет объявление или отклоняет его с указанием причины.":"2. Редакция мәтінді, фотосуреттерді және байланыс деректерін қолмен тексеріп, хабарландыруды мақұлдайды немесе себебін көрсетіп қабылдамайды.","3. Новый выпуск создаётся по понедельникам в 06:00. В каждом выпуске только новые одобренные объявления. Старые выпуски не открываются публично.":"3. Жаңа басылым әр дүйсенбі күні 06:00-де жасалады. Әр басылымда тек жаңа мақұлданған хабарландырулар болады. Ескі басылымдар ашық түрде қолжетімді емес.","Сайт работает через Netlify Functions и Google Apps Script. Заявки, модерация и доступ к выпускам становятся доступны после настройки серверных параметров редакцией.":"Supabase және Netlify Functions нұсқаулық бойынша бапталғаннан кейін онлайн жұмыс істейді. Бастапқы кодта құпия кілттер жоқ; backend бапталғанға дейін хабарландыру қабылдау, модерация және ақылы қолжетімділік жұмыс істейді деп есептеуге болмайды.","Купи-Продай — Казахстан · Шаблон выпуска":"Сатып ал — сат — Қазақстан · Басылым үлгісі",
+"Недвижимость":"Жылжымайтын мүлік","Квартиры и комнаты":"Пәтерлер мен бөлмелер","Дома, дачи и коттеджи":"Үйлер, саяжайлар мен коттедждер","Земельные участки":"Жер учаскелері","Гаражи и парковки":"Гараждар мен тұрақ орындары","Аренда недвижимости":"Жылжымайтын мүлікті жалға беру","Коммерческая недвижимость":"Коммерциялық жылжымайтын мүлік","Автомобили":"Автокөліктер","Грузовой транспорт и автобусы":"Жүк көлігі мен автобустар","Мотоциклы и скутеры":"Мотоциклдер мен скутерлер","Прицепы":"Тіркемелер","Тракторы и спецтехника":"Тракторлар мен арнайы техника","Автозапчасти и комплектующие":"Автокөлік бөлшектері мен жинақтаушы бөлшектер","Станки и промышленное оборудование":"Станоктар мен өнеркәсіптік жабдықтар","Насосы и компрессоры":"Сорғылар мен компрессорлар","Генераторы и электростанции":"Генераторлар мен электр станциялары","Сварочное оборудование":"Дәнекерлеу жабдықтары","Радиоаппаратура":"Радиоаппаратура","Электронные компоненты и платы":"Электрондық компоненттер мен тақшалар","Измерительные приборы":"Өлшеу аспаптары","Компьютеры и офисная техника":"Компьютерлер мен кеңсе техникасы","Телефоны и связь":"Телефондар мен байланыс","Бытовая техника":"Тұрмыстық техника","Мебель и товары для дома":"Жиһаз және үй тауарлары","Одежда, обувь и аксессуары":"Киім, аяқ киім және аксессуарлар","Инструменты":"Құрал-саймандар","Строительные материалы":"Құрылыс материалдары","Уголь, дрова и топливо":"Көмір, отын және жанармай","Сельхозтехника и оборудование":"Ауыл шаруашылығы техникасы мен жабдықтары","Животные и скот":"Жануарлар мен мал","Птица, корма и зерно":"Құс, жем және астық","Сельхозпродукция":"Ауыл шаруашылығы өнімдері","Товары собственного производства":"Өз өндірісінің тауарлары","Услуги и ремонт":"Қызметтер мен жөндеу","Работа и вакансии":"Жұмыс пен бос орындар","Куплю":"Сатып аламын","Продам":"Сатамын","Обменяю":"Айырбастаймын","Отдам бесплатно":"Тегін беремін","Ищу услугу":"Қызмет іздеймін","Другое":"Басқа","Здоровье и лечение":"Денсаулық және емдеу","Мыло, мойка и косметика":"Сабын, жуу құралдары және косметика","Товары для детей":"Балаларға арналған тауарлар","Всё для школы":"Мектепке қажеттінің бәрі","Спорт, охота и рыбалка":"Спорт, аңшылық және балық аулау","Всё для кухни":"Асүйге қажеттінің бәрі","Отдых и туризм":"Демалыс және туризм",
+"Продать":"Сату","Сдам в аренду":"Жалға беремін","Сниму в аренду":"Жалға аламын","Предлагаю услугу":"Қызмет ұсынамын","Ищу работу":"Жұмыс іздеймін","Вакансия":"Бос жұмыс орны","Одежда":"Киім","Обувь":"Аяқ киім","Сумки и аксессуары":"Сөмкелер мен аксессуарлар","Ювелирные украшения":"Зергерлік бұйымдар","Бижутерия":"Әшекей бұйымдар","Лечение и поддержание здоровья":"Емдеу және денсаулықты сақтау","Медицинские товары и приборы":"Медициналық тауарлар мен аспаптар","Средства ухода":"Күтім құралдары","Мыло и моющие средства":"Сабын және жуғыш заттар","Косметика":"Косметика","Аксессуары для ухода":"Күтім аксессуарлары","Средства гигиены":"Гигиена құралдары","Детская одежда":"Балалар киімі","Детская обувь":"Балалар аяқ киімі","Игрушки":"Ойыншықтар","Коляски и товары для ухода":"Арбалар мен күтім тауарлары","Детская мебель":"Балалар жиһазы","Школьные принадлежности":"Мектеп керек-жарақтары","Канцелярские товары":"Кеңсе тауарлары","Рюкзаки и сумки":"Рюкзактар мен сөмкелер","Школьные аксессуары":"Мектеп аксессуарлары","Учебные материалы":"Оқу материалдары","Спортивные товары":"Спорт тауарлары","Охота":"Аңшылық","Рыбалка":"Балық аулау","Спортивная одежда и обувь":"Спорт киімі мен аяқ киімі","Туристическое снаряжение":"Туристік жабдықтар","Посуда":"Ыдыс-аяқ","Кухонные принадлежности":"Асүй керек-жарақтары","Мелкая кухонная техника":"Шағын асүй техникасы","Хранение продуктов":"Азық-түлікті сақтау","Товары для отдыха":"Демалыс тауарлары","Палатки и спальники":"Шатырлар мен ұйықтайтын қаптар","Товары для пикника":"Пикникке арналған тауарлар","Путешествия и аксессуары":"Саяхат және аксессуарлар","Часы":"Сағаттар",
+"Область Абай":"Абай облысы","Акмолинская область":"Ақмола облысы","Актюбинская область":"Ақтөбе облысы","Алматинская область":"Алматы облысы","Атырауская область":"Атырау облысы","Западно-Казахстанская область":"Батыс Қазақстан облысы","Жамбылская область":"Жамбыл облысы","Жетісу":"Жетісу облысы","Карагандинская область":"Қарағанды облысы","Костанайская область":"Қостанай облысы","Кызылординская область":"Қызылорда облысы","Мангистауская область":"Маңғыстау облысы","Павлодарская область":"Павлодар облысы","Северо-Казахстанская область":"Солтүстік Қазақстан облысы","Туркестанская область":"Түркістан облысы","Восточно-Казахстанская область":"Шығыс Қазақстан облысы","Улытауская область":"Ұлытау облысы","город Астана":"Астана қаласы","город Алматы":"Алматы қаласы","город Шымкент":"Шымкент қаласы",
+"Абай":"Абай","Акколь":"Ақкөл","Актау":"Ақтау","Актобе":"Ақтөбе","Алматы":"Алматы","Алтай":"Алтай","Астана":"Астана","Атырау":"Атырау","Балхаш":"Балқаш","Жезказган":"Жезқазған","Караганда":"Қарағанды","Кокшетау":"Көкшетау","Конаев":"Қонаев","Костанай":"Қостанай","Кызылорда":"Қызылорда","Павлодар":"Павлодар","Петропавловск":"Петропавл","Риддер":"Риддер","Рудный":"Рудный","Семей":"Семей","Талдыкорган":"Талдықорған","Тараз":"Тараз","Темиртау":"Теміртау","Туркестан":"Түркістан","Уральск":"Орал","Усть-Каменогорск":"Өскемен","Шымкент":"Шымкент","Экибастуз":"Екібастұз"
+};
+function tr(text){return document.documentElement.lang==="kk"?(UI_KK[text]||text):text;}
+function setLanguage(lang){
+  lang=lang==="kk"?"kk":"ru";document.documentElement.lang=lang;
+  document.querySelectorAll("[data-lang]").forEach(b=>{const active=b.dataset.lang===lang;b.classList.toggle("lang-active",active);b.setAttribute("aria-pressed",String(active));});
+  const header=document.querySelector("header .wrap");
+  header.querySelector("h1").textContent=tr("Купи-Продай — Казахстан");
+  header.querySelectorAll(":scope > p")[0].textContent=tr("Объявления со всей страны: недвижимость, транспорт, оборудование, электроника, товары и услуги.");
+  header.querySelector(".slogan").textContent=tr("Бесплатно и без посредников.");
+  $("issuePill").textContent=tr("Поиск по выпуску · Казахстан");
+  const panels=document.querySelectorAll("main .panel");
+  panels[0].querySelector("h2").textContent=tr("Найти объявление");
+  panels[1].querySelector("h2").textContent=tr("Выпуски газеты");
+  panels[2].querySelector("h2").childNodes[0].textContent=tr("Результаты поиска")+" ";
+  panels[3].querySelector("h2").textContent=tr("Как работает газета");
+  // Store the original Russian wording once so switching back and forth is lossless.
+  document.querySelectorAll("label").forEach(el=>{if(!el.dataset.ruText)el.dataset.ruText=el.textContent;el.textContent=tr(el.dataset.ruText);});
+  ["category","region","kind","priceType"].forEach(id=>{const sel=$(id);Array.from(sel.options).forEach(o=>{if(!o.dataset.ruText)o.dataset.ruText=o.textContent;if(!o.dataset.ruValue)o.dataset.ruValue=o.value;o.value=o.dataset.ruValue;o.textContent=tr(o.dataset.ruText);});});
+  ["district","settlement","minPrice","maxPrice","keyword"].forEach(id=>{const el=$(id);if(!el.dataset.ruPlaceholder)el.dataset.ruPlaceholder=el.placeholder;el.placeholder=tr(el.dataset.ruPlaceholder);});
+  $("findBtn").textContent=tr("Найти объявления");$("resetBtn").textContent=tr("Сбросить");$("htmlBtn").textContent=tr("Скачать выпуск HTML");$("pdfBtn").textContent=tr("Печать / PDF");
+  const notes=document.querySelectorAll("main .panel > .note");
+  const noteTexts=["Район и населённый пункт можно вписать вручную. Список всех сёл и районов здесь не встроен; результаты показываются по данным конкретного выпуска.","Новый выпуск планируется каждый понедельник в 06:00 по времени Казахстана. В него попадают только новые одобренные объявления, ещё не включённые в прошлые выпуски. Публичного архива нет; служебная история хранится закрыто для редакции.","Сайт работает через Netlify Functions и Google Apps Script. Заявки, модерация и доступ к выпускам становятся доступны после настройки серверных параметров редакцией."];
+  notes.forEach((el,i)=>{if(noteTexts[i])el.textContent=tr(noteTexts[i]);});
+  const issueCards=document.querySelectorAll(".issue");
+  if(issueCards[0]){issueCards[0].querySelector("h3").textContent=tr("Бесплатный выпуск без контактов");issueCards[0].querySelector("p").textContent=tr("Бесплатно и без посредников. Объявления, описания, цены и местоположение доступны для просмотра; телефоны и другие прямые контакты не показываются.");issueCards[0].querySelector("strong").textContent=tr("Бесплатно");}
+  if(issueCards[1]){issueCards[1].querySelector("h3").textContent=tr("Полный выпуск с контактами");issueCards[1].querySelector("p").textContent=tr("Полные тексты, цены, местоположение, фотографии и контакты — только если продавец разрешил их публикацию.");issueCards[1].querySelectorAll("p")[1].textContent=tr("После ручной проверки оплаты редакция выдаёт персональную онлайн-ссылку на выбранный выпуск. Ссылка действует до выхода следующего выпуска, обычно около недели; затем для просмотра нужно купить новый выпуск.");}
+  const steps=panels[3].querySelectorAll("p");["1. Объявление подают через полную форму на сайте; фотографии и контакты сохраняются в базе.","2. Редакция вручную проверяет текст, фотографии и контактные данные, затем одобряет объявление или отклоняет его с указанием причины.","3. Новый выпуск создаётся по понедельникам в 06:00. В каждом выпуске только новые одобренные объявления. Старые выпуски не открываются публично.","Сайт работает через Netlify Functions и Google Apps Script. Заявки, модерация и доступ к выпускам становятся доступны после настройки серверных параметров редакцией."].forEach((v,i)=>{if(steps[i])steps[i].textContent=tr(v);});
+  document.querySelector("footer").textContent=tr("Купи-Продай — Казахстан · Шаблон выпуска");
+  if($("count").textContent){const n=($("count").textContent.match(/\d+/)||["0"])[0];$("count").textContent=lang==="kk"?"— табылды: "+n:"— найдено: "+n;}
+  render();
+}
+$("findBtn").addEventListener("click",()=>{render();$("results").scrollIntoView({behavior:"smooth",block:"start"});});
+["district","settlement","minPrice","maxPrice","keyword"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();render();}}));
+$("resetBtn").addEventListener("click",()=>{
+  ["category","region","kind","district","settlement","minPrice","maxPrice","priceType","keyword"].forEach(id=>$(id).value="");
+  suggestions.classList.add("hidden");render();
+});
+document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>setLanguage(b.dataset.lang)));
+$("htmlBtn").addEventListener("click",exportIssueHtml);
+$("pdfBtn").addEventListener("click",()=>alert(lang==="kk"?"PDF функциясы әзірге қосылмаған.":"Функция PDF пока не подключена."));
+setLanguage("ru");
+loadIssue();
+</script>
+</body>
+</html>

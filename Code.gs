@@ -1,5 +1,5 @@
 /** КУПИ-ПРОДАЙ — КАЗАХСТАН | API gateway v2.5. */
-const INTERNAL_API_SECRET = 'KUPI_KZ_3833aeb8a8abf7b8ea62505ccad1987351889cb616913f66d71eb45fb89cdb30';
+
 const CFG = {
   SPREADSHEET_ID: '105prY1F1rOHPGdI2fqthkCAAqNKc6G79',
   ADMIN_EMAIL: 'veelts139@gmail.com',

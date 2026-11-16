@@ -2,7 +2,7 @@
 
 const CFG = {
   SPREADSHEET_ID: '105prY1F1rOHPGdI2fqthkCAAqNKc6G79',
-  ADMIN_EMAIL: 'veelts139@gmail.com',
+  ADMIN_EMAIL: 'veeelts139@gmail.com',
   TIMEZONE: 'Asia/Almaty',
   PRICE_KZT: 500,
   MAX_PHOTOS: 5,

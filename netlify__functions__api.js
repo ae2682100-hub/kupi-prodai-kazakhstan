@@ -1,5 +1,5 @@
 // Netlify -> Google Apps Script gateway. Never put the shared secret in source code.
-const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbwl10nzNjv54g_9_WWn9zn09vjw7-M-XNYsfZ9-7MaBi9ld5bD9AlpeTOOlE9XJGro4/exec';
+const DEFAULT_GAS_URL = 'https://script.google.com/macros/s/AKfycbzHy1DXpGKftPhsaWzq3x-7hX9ZIPjuu5xwpJLg9XjRJeZL46I36LrXU31WQ7ZBSXOH/exec';
 const GAS_URL = String(process.env.GAS_WEB_APP_URL || DEFAULT_GAS_URL).trim();
 const API_SECRET = String(process.env.KUPI_API_SECRET || '').trim();
 
